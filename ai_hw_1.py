@@ -76,7 +76,7 @@ def ridge_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr):
         loss = linear_loss + ridge_loss
         loss_ridge.append(loss)
         
-        grad = np.dot(x_train.T, (y_hat-y_train))/num_train + lambda_ridge * w /(d)
+        grad = np.dot(x_train.T, (y_hat-y_train))/num_train + lambda_ridge * w /(d+1)
         w -= lr * grad 
         
         # mse 
@@ -92,10 +92,10 @@ def ridge_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr):
     return w, loss_ridge, mse_curve
 
 w_ridge, loss_ridge, mse_ridge = ridge_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr)
-print(sum(np.abs(w_ridge)<0.01)) # 2
+print("w_ridge abs value < 0.01: ", sum(np.abs(w_ridge)<0.01)) # 2
 
 # square loss on test data 
-print("Squre Error of Ridge: ", mse(x_test, y_test, w_ridge)*x_test.shape[0]) # 0.1532659286282437 
+print("Squre Error of Ridge: ", mse(x_test, y_test, w_ridge)) # 0.012718043780608666
 
 
 ################################################################################
@@ -104,10 +104,9 @@ print("Squre Error of Ridge: ", mse(x_test, y_test, w_ridge)*x_test.shape[0]) # 
 def sign(x):
     if x >= 0:
         return 1
-    elif x < 0:
-        return -1
     else:
-        return 0
+        return -1
+
     
 lambda_lasso = 0.3
 d = 15
@@ -128,11 +127,11 @@ def lasso_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr, 
     while True:
         y_hat = np.dot(w, x_train.T)
         linear_loss = np.sum((y_hat-y_train)**2)/(2*num_train)
-        lasso_loss = lambda_lasso * np.sum(abs(w))/ (2*(d)) 
+        lasso_loss = lambda_lasso * np.sum(abs(w))/ (2*(d+1)) 
         
         loss = linear_loss + lasso_loss
         
-        grad = np.dot(x_train.T, (y_hat-y_train))/num_train + lambda_lasso * vec_sign(w)/(2*d)
+        grad = np.dot(x_train.T, (y_hat-y_train))/num_train + lambda_lasso * vec_sign(w)/(2*(d+1))
         
         w -= lr * grad 
         
@@ -150,8 +149,8 @@ def lasso_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr, 
 
 w_lasso, loss_lasso, mse_lasso = lasso_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr, sign)
 
-print(sum(np.abs(w_lasso)<0.01)) # 6
-print("Squre Error of Lasso: ", mse(x_test, y_test, w_lasso)*x_test.shape[0])# 0.1553511078190968 
+print("w_lasso abs value < 0.01: ", sum(np.abs(w_lasso)<0.01)) # 6
+print("Squre Error of Lasso: ", mse(x_test, y_test, w_lasso))# 0.01290611354506977
 
 ################################################################################
 def plot_diag(loss, mse,label_loss):
