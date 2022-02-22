@@ -92,7 +92,7 @@ def ridge_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr):
     return w, loss_ridge, mse_curve
 
 w_ridge, loss_ridge, mse_ridge = ridge_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr)
-print(sum(np.abs(w_ridge)<0.01))
+print(sum(np.abs(w_ridge)<0.01)) # 2
 
 # square loss on test data 
 print("Squre Error of Ridge: ", mse(x_test, y_test, w_ridge)*x_test.shape[0]) # 0.1532659286282437 
@@ -150,7 +150,7 @@ def lasso_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr, 
 
 w_lasso, loss_lasso, mse_lasso = lasso_regression(x_train, y_train,lambda_ridge,x_test, y_test, epsilon, lr, sign)
 
-print(sum(np.abs(w_lasso)<0.01)) # 2 
+print(sum(np.abs(w_lasso)<0.01)) # 6
 print("Squre Error of Lasso: ", mse(x_test, y_test, w_lasso)*x_test.shape[0])# 0.1553511078190968 
 
 ################################################################################
